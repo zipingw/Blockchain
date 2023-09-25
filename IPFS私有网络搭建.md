@@ -162,3 +162,10 @@ Swarm is limited to private network of peers with the swarm key
 Swarm key fingerprint: c2fc00b19ee671210674155a5cf76ee8
 ```
 
+## ipfs-cluster
+
+上述方法搭建的私有网络不便于对节点进行统一管理，若需要对集群进行管理，需要额外部署支持Kubo实现版本的ipfs-cluster工具，该工具主要有三部分：
+
+- ipfs-cluster-ctl
+- ipfs-cluster-follow
+- ipfs-cluster-service
