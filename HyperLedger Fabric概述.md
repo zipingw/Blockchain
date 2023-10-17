@@ -200,7 +200,3 @@ docker exec -it cli sh
 peer chaincode install -p chaincodedev/chaincode/contract-tutorial -n mycc -v 0
 ```
 
-
-
-#### Fabric Application APIs
-
