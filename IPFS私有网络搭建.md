@@ -158,6 +158,7 @@ source ~/.profile # 使环境变量生效
 完成以上配置后，再以`ipfs daemon`命令启动进程时，将出现以下提示信息
 
 ```bash
+# 报错信息：2023-10-18T11:03:15.121+0800    ERROR   cmd/ipfs        ipfs/daemon.go:408       Private networking (swarm.key / LIBP2P_FORCE_PNET) does not work with public HTTP IPNIs enabled by Routing.Type=auto. Kubo will use Routing.Type=dht instead. Update config to remove this message.
 Swarm is limited to private network of peers with the swarm key
 Swarm key fingerprint: c2fc00b19ee671210674155a5cf76ee8
 ```

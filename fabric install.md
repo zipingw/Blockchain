@@ -23,14 +23,14 @@ deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-security main restricted
 
 sudo apt-get update
 
-$ sudo apt-get install git
-$ sudo apt-get install curl
+sudo apt-get install git
+sudo apt-get install curl
 sudo apt-get -y install docker-compose
 
 sudo systemctl start docker
 sudo systemctl enable docker
-sudo usermod -a -G docker <username>
-newgrp docker # 这行好像又不是一定需要的
+sudo usermod -aG docker <username>
+newgrp docker # 这行是必要的
 
 sudo apt-get install openssh-server
 sudo /etc/init.d/ssh start
@@ -249,5 +249,45 @@ Smart contract : implements the transactions that interact with the ledger
 
 Fabric Gateway client API      这是什么一个概念  相当于blockchain network对外开放的一个代理人，跟网络中的网关差不多，Client Application通过这个Gateway去提交TX到blockchain network或者查询ledger
 
+### Fabric Application
 
+```bash
+cd fabric-samples/test-network
+./network.sh down
+# 启动network创建channel
+./network.sh up createChannel -c mychannel -ca
+# 部署typescript 智能合约
+./network.sh deployCC -ccn basic -ccp ../asset-transfer-basic/chaincode-typescript/ -ccl typescript
+```
+
+上面这部分相当于操作了blockchain network，对外暴露出一个智能合约，接下来可以通过Application调用该智能合约
+
+```bash
+# 重新打开一个termianl
+cd asset-transfer-basic/application-gateway-typescript
+sudo apt install npm
+sudo npm install # 会报错，node版本不满足 >14
+sudo npm install -g n # 安装版本管理工具
+sudo n stable # 升级到稳定版本 目前是18.18.2 , 访问nodejs.org超时
+ping nodejs.org # Ping成功后再执行sudo n stable就不会访问超时，可能是DNS的原因
+sudo n stable # 成功升级
+sudo npm install # 成功安装 package.json 中定义的依赖
+```
+
+这里就是用application-gateway-typescript中的代码去invoke智能合约
+
+### 自定义chaincode
+
+```bash
+mkdir newcc && cd newcc
+go mod init newcc
+mkdir chaincode-go && cd chaincode-go
+touch newcc.go
+# 编写完newcc.go之后
+go mod tidy
+go mod vendor
+# 一步安装 -ccn后的参数是chaincode name
+./network.sh deployCC -ccn basic -ccp ../ipfscc-basic/chaincode-go/ -ccl go
+
+```
 
